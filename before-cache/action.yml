@@ -1,0 +1,8 @@
+name: 'Prepare system (before cache)'
+description: 'Prepare system (before cache)'
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        sudo mkdir -p /opt/X11 && sudo chown $USER /opt/X11

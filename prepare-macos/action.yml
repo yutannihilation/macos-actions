@@ -1,0 +1,66 @@
+name: 'Prepare MacOS system'
+description: 'Prepare system for building R packages'
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        echo "Removing Homebrew..."
+        cp $(which gtar) $(which zstd) .
+        curl -fsSOL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
+        sudo bash uninstall.sh --force --quiet 2>&1 | sed 's/Warning/Note/g'
+        cp -f gtar zstd /usr/local/bin/
+        hash -r && rm uninstall.sh
+        echo "Done removing homebrew!"
+
+    - shell: bash
+      run: |
+        if [ -d "/opt/X11/lib" ]; then
+          echo "/opt/X11/lib exists. Skipping xQuartz installation"
+        else
+          echo "Downloading XQuartz..."
+          curl -fLo XQuartz-2.7.11.dmg https://dl.bintray.com/xquartz/downloads/XQuartz-2.7.11.dmg
+          sudo hdiutil attach XQuartz-2.7.11.dmg -mountpoint /Volumes/xquartz
+          sudo installer -pkg "/Volumes/xquartz/XQuartz.pkg" -target /
+          sudo hdiutil detach /Volumes/xquartz
+          rm -f XQuartz-2.7.11.dmg
+          echo "Done installing XQuartz!"
+        fi
+
+    - shell: bash
+      run: |
+        if [ -d "/usr/local/gfortran" ]; then
+          echo "/usr/local/gfortran exists. Skipping fortran installation"
+        else
+          echo "Downloading Fortran..."
+          curl -fLo /tmp/gfortran82.dmg https://github.com/fxcoudert/gfortran-for-macOS/releases/download/8.2/gfortran-8.2-Mojave.dmg
+          sudo hdiutil attach /tmp/gfortran82.dmg -mountpoint /Volumes/gfortran
+          sudo installer -pkg "/Volumes/gfortran/gfortran-8.2-Mojave/gfortran.pkg" -target /
+          sudo hdiutil detach /Volumes/gfortran
+          rm -f /tmp/gfortran82.dmg
+          echo "Done installing Fortran!"
+        fi
+
+    - shell: bash
+      run: |
+        if pandoc --version; then
+          echo "Skipping pandoc installation"
+        else
+          curl -OL https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-macOS.pkg
+          sudo installer -pkg pandoc-2.11.4-macOS.pkg -target /
+          rm -f pandoc-2.11.4-macOS.pkg
+        fi
+
+    - shell: bash
+      run: |
+        echo "Installing GDAL bundle..."
+        curl -sSL http://dl.bintray.com/autobrew/high_sierra/gdal-3.2.0-high_sierra.tar.xz -o libs.tar.xz
+        sudo tar -xf libs.tar.xz --strip 1 -C /usr/local/
+        rm -f libs.tar.xz
+        echo "Done installing GDAL!"
+
+    - shell: bash
+      run:
+        echo "Setting path to proj and fortran"
+        echo "PROJ_LIB=/usr/local/share/proj" >> $GITHUB_ENV
+        echo "/usr/local/gfortran/bin" >> $GITHUB_PATH
