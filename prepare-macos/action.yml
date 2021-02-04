@@ -7,10 +7,10 @@ runs:
       run: |
         echo "Removing Homebrew..."
         cp $(which gtar) $(which zstd) .
-        curl -fsSOL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
-        sudo bash uninstall.sh --force --quiet 2>&1 | sed 's/Warning/Note/g'
+        brew unlink $(brew list --formula) || true
+        sudo mv /usr/local/Cellar /usr/local/oldcellar
         cp -f gtar zstd /usr/local/bin/
-        hash -r && rm uninstall.sh
+        hash -r
         echo "Done removing homebrew!"
 
     - shell: bash
