@@ -8,6 +8,8 @@ runs:
         echo "Removing Homebrew..."
         cp $(which gtar) $(which zstd) .
         brew unlink $(brew list --formula) || true
+        sudo rm -vf $(which brew)
+        sudo mv /usr/local/Homebrew /usr/local/oldhomebrew
         sudo mv /usr/local/Cellar /usr/local/oldcellar
         cp -f gtar zstd /usr/local/bin/
         hash -r
@@ -46,7 +48,7 @@ runs:
         if pandoc --version; then
           echo "Skipping pandoc installation"
         else
-          curl -OL https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-macOS.pkg
+          curl -fOL https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-macOS.pkg
           sudo installer -pkg pandoc-2.11.4-macOS.pkg -target /
           rm -f pandoc-2.11.4-macOS.pkg
         fi
