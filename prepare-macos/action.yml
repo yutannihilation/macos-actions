@@ -64,5 +64,4 @@ runs:
     - shell: bash
       run:
         echo "Setting path to proj and fortran"
-        echo "PROJ_LIB=/usr/local/share/proj" >> $GITHUB_ENV
         echo "/usr/local/gfortran/bin" >> $GITHUB_PATH
