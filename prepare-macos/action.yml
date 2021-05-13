@@ -21,11 +21,11 @@ runs:
           echo "/opt/X11/lib exists. Skipping xQuartz installation"
         else
           echo "Downloading XQuartz..."
-          curl -fLo XQuartz-2.7.11.dmg https://dl.bintray.com/xquartz/downloads/XQuartz-2.7.11.dmg
-          sudo hdiutil attach XQuartz-2.7.11.dmg -mountpoint /Volumes/xquartz
+          curl -fLo XQuartz-2.8.1.dmg https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.8.1/XQuartz-2.8.1.dmg
+          sudo hdiutil attach XQuartz-2.8.1.dmg -mountpoint /Volumes/xquartz
           sudo installer -pkg "/Volumes/xquartz/XQuartz.pkg" -target /
           sudo hdiutil detach /Volumes/xquartz
-          rm -f XQuartz-2.7.11.dmg
+          rm -f XQuartz-2.8.1.dmg
           echo "Done installing XQuartz!"
         fi
 
