@@ -65,6 +65,3 @@ runs:
       run:
         echo "Setting path to proj and fortran"
         echo "/usr/local/gfortran/bin" >> $GITHUB_PATH
-
-    - shell: bash
-      run: Rscript -e "install.packages('https://cran.r-project.org/bin/macosx/contrib/4.0/rJava_1.0-4.tgz', repos = NULL)"
