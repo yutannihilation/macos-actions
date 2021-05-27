@@ -5,7 +5,7 @@ runs:
   steps:
     - shell: bash
       run: |
-        echo "Removing Homebrew..."
+        echo "::group::Removing Homebrew"
         cp $(which gtar) $(which zstd) .
         brew unlink $(brew list --formula) || true
         sudo rm -vf $(which brew)
@@ -14,12 +14,14 @@ runs:
         cp -f gtar zstd /usr/local/bin/
         hash -r
         echo "Done removing homebrew!"
+        echo "::endgroup::"
 
     - shell: bash
       run: |
         if [ -d "/opt/X11/lib" ]; then
           echo "/opt/X11/lib exists. Skipping xQuartz installation"
         else
+          echo "::group::Installing XQuartz"
           echo "Downloading XQuartz..."
           curl -fLo XQuartz-2.8.1.dmg https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.8.1/XQuartz-2.8.1.dmg
           sudo hdiutil attach XQuartz-2.8.1.dmg -mountpoint /Volumes/xquartz
@@ -27,6 +29,7 @@ runs:
           sudo hdiutil detach /Volumes/xquartz
           rm -f XQuartz-2.8.1.dmg
           echo "Done installing XQuartz!"
+          echo "::endgroup::"
         fi
 
     - shell: bash
@@ -34,6 +37,7 @@ runs:
         if [ -d "/usr/local/gfortran" ]; then
           echo "/usr/local/gfortran exists. Skipping fortran installation"
         else
+          echo "::group::Installing Fortran"
           echo "Downloading Fortran..."
           curl -fLo /tmp/gfortran82.dmg https://github.com/fxcoudert/gfortran-for-macOS/releases/download/8.2/gfortran-8.2-Mojave.dmg
           sudo hdiutil attach /tmp/gfortran82.dmg -mountpoint /Volumes/gfortran
@@ -41,6 +45,7 @@ runs:
           sudo hdiutil detach /Volumes/gfortran
           rm -f /tmp/gfortran82.dmg
           echo "Done installing Fortran!"
+          echo "::endgroup::"
         fi
 
     - shell: bash
@@ -48,18 +53,21 @@ runs:
         if pandoc --version; then
           echo "Skipping pandoc installation"
         else
+          echo "::group::Installing Pandoc"
           curl -fOL https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-macOS.pkg
           sudo installer -pkg pandoc-2.11.4-macOS.pkg -target /
           rm -f pandoc-2.11.4-macOS.pkg
+          echo "::endgroup::"
         fi
 
     - shell: bash
       run: |
-        echo "Installing GDAL bundle..."
+        echo "::group::Installing GDAL bundle"
         curl -sSL https://autobrew.github.io/archive/high_sierra/gdal-3.2.0-high_sierra.tar.xz -o libs.tar.xz
         sudo tar -xvf libs.tar.xz --strip 1 -C /usr/local/
         rm -f libs.tar.xz
         echo "Done installing GDAL!"
+        echo "::endgroup::"
 
     - shell: bash
       run:
