@@ -62,11 +62,11 @@ runs:
 
     - shell: bash
       run: |
-        echo "::group::Installing GDAL bundle"
-        curl -sSL https://autobrew.github.io/archive/high_sierra/gdal-3.2.0-high_sierra.tar.xz -o libs.tar.xz
+        echo "::group::Installing autobrew CRAN bundle"
+        curl -fsSL https://autobrew.github.io/archive/high_sierra/cranbundle-20210625-high_sierra.tar.xz -o libs.tar.xz
         sudo tar -xvf libs.tar.xz --strip 1 -C /usr/local/
         rm -f libs.tar.xz
-        echo "Done installing GDAL!"
+        echo "Done installing autobrew CRAN bundle!"
         echo "::endgroup::"
 
     - shell: bash
