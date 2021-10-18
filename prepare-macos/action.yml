@@ -54,9 +54,9 @@ runs:
           echo "Skipping pandoc installation"
         else
           echo "::group::Installing Pandoc"
-          curl -fOL https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-macOS.pkg
-          sudo installer -pkg pandoc-2.11.4-macOS.pkg -target /
-          rm -f pandoc-2.11.4-macOS.pkg
+          curl -fOL https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-macOS.pkg
+          sudo installer -pkg pandoc-2.14.2-macOS.pkg -target /
+          rm -f pandoc-2.14.2-macOS.pkg
           echo "::endgroup::"
         fi
 
