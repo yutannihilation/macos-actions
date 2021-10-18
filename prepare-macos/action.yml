@@ -23,7 +23,7 @@ runs:
         else
           echo "::group::Installing XQuartz"
           echo "Downloading XQuartz..."
-          curl -fLo XQuartz-2.8.1.dmg https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.8.1/XQuartz-2.8.1.dmg
+          curl --retry 3 -fLo XQuartz-2.8.1.dmg https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.8.1/XQuartz-2.8.1.dmg
           sudo hdiutil attach XQuartz-2.8.1.dmg -mountpoint /Volumes/xquartz
           sudo installer -pkg "/Volumes/xquartz/XQuartz.pkg" -target /
           sudo hdiutil detach /Volumes/xquartz
@@ -39,7 +39,7 @@ runs:
         else
           echo "::group::Installing Fortran"
           echo "Downloading Fortran..."
-          curl -fLo /tmp/gfortran82.dmg https://github.com/fxcoudert/gfortran-for-macOS/releases/download/8.2/gfortran-8.2-Mojave.dmg
+          curl --retry 3 -fLo /tmp/gfortran82.dmg https://github.com/fxcoudert/gfortran-for-macOS/releases/download/8.2/gfortran-8.2-Mojave.dmg
           sudo hdiutil attach /tmp/gfortran82.dmg -mountpoint /Volumes/gfortran
           sudo installer -pkg "/Volumes/gfortran/gfortran-8.2-Mojave/gfortran.pkg" -target /
           sudo hdiutil detach /Volumes/gfortran
@@ -54,7 +54,7 @@ runs:
           echo "Skipping pandoc installation"
         else
           echo "::group::Installing Pandoc"
-          curl -fOL https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-macOS.pkg
+          curl --retry 3 -fOL https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-macOS.pkg
           sudo installer -pkg pandoc-2.14.2-macOS.pkg -target /
           rm -f pandoc-2.14.2-macOS.pkg
           echo "::endgroup::"
@@ -63,7 +63,7 @@ runs:
     - shell: bash
       run: |
         echo "::group::Installing autobrew CRAN bundle"
-        curl -fsSL https://github.com/autobrew/bundler/releases/download/2021-10-15/cranbundle-20211015-high_sierra.tar.xz -o libs.tar.xz
+        curl --retry 3 -fsSL https://github.com/autobrew/bundler/releases/download/2021-10-15/cranbundle-20211015-high_sierra.tar.xz -o libs.tar.xz
         sudo tar -xvf libs.tar.xz --strip 1 -C /usr/local/
         rm -f libs.tar.xz
         echo "Done installing autobrew CRAN bundle!"
