@@ -64,7 +64,7 @@ runs:
       run: |
         echo "::group::Installing autobrew CRAN bundle"
         curl --retry 3 -fsSL https://github.com/autobrew/bundler/releases/download/2021-10-15/cranbundle-20211015-high_sierra.tar.xz -o libs.tar.xz
-        sudo tar -xvf libs.tar.xz --strip 1 -C /usr/local/
+        sudo tar -xf libs.tar.xz --strip 1 -C /usr/local/
         rm -f libs.tar.xz
         echo "Done installing autobrew CRAN bundle!"
         echo "::endgroup::"
