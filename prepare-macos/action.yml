@@ -6,12 +6,12 @@ runs:
     - shell: bash
       run: |
         echo "::group::Removing Homebrew"
-        cp $(which gtar) $(which zstd) .
+        cp $(which gtar) $(which zstd) $(which git-lfs) .
         brew unlink $(brew list --formula) || true
         sudo rm -vf $(which brew)
         sudo mv /usr/local/Homebrew /usr/local/oldhomebrew
         sudo mv /usr/local/Cellar /usr/local/oldcellar
-        cp -f gtar zstd /usr/local/bin/
+        cp -f gtar zstd git-lfs /usr/local/bin/
         hash -r
         echo "Done removing homebrew!"
         echo "::endgroup::"
