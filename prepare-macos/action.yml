@@ -68,9 +68,6 @@ runs:
         rm -f libs.tar.xz
         echo "Available libs through pkg-config:"
         pkg-config --list-all
-        pkg-config --exists cairo && echo "Cairo found!"
-        echo "CFLAGS: $(pkg-config --cflags cairo)"
-        echo "LIBS: $(pkg-config --libs cairo)"
         echo "Done installing autobrew CRAN bundle!"
         echo "::endgroup::"
 
