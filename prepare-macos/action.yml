@@ -66,8 +66,11 @@ runs:
         curl --retry 3 -fsSL https://github.com/autobrew/bundler/releases/download/2022-05-19/cranbundle-20220519-high_sierra.tar.xz -o libs.tar.xz
         sudo tar -xf libs.tar.xz --strip 1 -C /usr/local/
         rm -f libs.tar.xz
-        echo "Available libs throug pkg-config:"
+        echo "Available libs through pkg-config:"
         pkg-config --list-all
+        pkg-config --exists cairo && echo "Cairo found!"
+        echo "CFLAGS: $(pkg-config --cflags cairo)"
+        echo "LIBS: $(pkg-config --libs cairo)"
         echo "Done installing autobrew CRAN bundle!"
         echo "::endgroup::"
 
